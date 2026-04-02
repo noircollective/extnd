@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create, collaborate, and go live</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --token-c534b380: #ffffff1a; --token-5e2a9781: #080808; --token-2fbf5c4b: #121212;
+  --token-958e2cd1: #000; --token-26e3cb56: #fff; --token-8f5eb515: #ffffff99;
+  --token-f5637926: #ffffff66; --token-bd71055c: #0099ff; --token-eb0d9e00: #0055ff;
+  --token-81eeded8: #ffffff14; --token-bf566e33: #ffffff12; --token-a90119e0: #242424;
+  --token-5964e09d: #999; --token-0670237f: #888; --token-e0051992: #141414;
+  --token-281f665e: #4cd963;
+  --bg: var(--token-958e2cd1); --surface: var(--token-5e2a9781);
+  --border: var(--token-c534b380); --text: var(--token-26e3cb56);
+  --text-dim: var(--token-8f5eb515); --text-muted: var(--token-f5637926);
+  --text-faint: var(--token-0670237f); --accent: var(--token-bd71055c);
+  --accent2: var(--token-eb0d9e00);
+}
+html { scroll-behavior: smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:12px; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+.section-root { width:100%; padding:160px 40px; display:flex; flex-flow:column; align-items:center; background:var(--bg); overflow:clip; }
+.feature-grid { width:100%; max-width:1200px; display:grid; grid-template-columns:300px 1fr; position:relative; align-items:start; }
+.sidebar { position:sticky; top:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding:64px 40px 64px 0; border-right:1px solid var(--border); z-index:20; }
+.sidebar-title { font-size:28px; font-weight:500; letter-spacing:-0.5px; line-height:1.2; color:var(--text); margin-bottom:40px; }
+.nav-list { display:flex; flex-direction:column; }
+.nav-item { border-top:1px solid var(--border); cursor:pointer; }
+.nav-item:last-child { border-bottom:1px solid var(--border); }
+.nav-header { display:flex; align-items:center; justify-content:space-between; padding:20px 0; user-select:none; }
+.nav-label { font-size:20px; font-weight:400; letter-spacing:-0.3px; color:var(--text); opacity:0.3; transition:opacity 0.35s; }
+.nav-arrow { width:18px; height:18px; color:var(--accent); opacity:0; transform:translateX(-4px); transition:opacity 0.3s, transform 0.3s; flex-shrink:0; }
+.nav-body { overflow:hidden; max-height:0; opacity:0; transition:max-height 0.42s cubic-bezier(.4,0,.2,1), opacity 0.3s; }
+.nav-desc { font-size:14px; line-height:1.65; color:var(--text-dim); padding-bottom:12px; }
+.nav-learn { display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:500; color:var(--text); text-decoration:none; margin-bottom:22px; opacity:0.8; transition:opacity .2s, gap .2s; }
+.nav-learn:hover { opacity:1; gap:10px; }
+.nav-item.active .nav-label { opacity:1; }
+.nav-item.active .nav-arrow { opacity:1; transform:translateX(0); }
+.nav-item.active .nav-body { max-height:220px; opacity:1; }
+.panels { position:relative; }
+.section { height:100vh; position:relative; }
+.showcase { position:sticky; top:0; height:100vh; padding:40px 0 40px 40px; will-change:opacity, transform; }
+.showcase-inner { width:100%; height:100%; border-radius:16px; overflow:hidden; border:1px solid var(--border); background:var(--surface); box-shadow:0 32px 80px rgba(0,0,0,0.6); position:relative; }
+.chrome { position:absolute; top:0; left:0; right:0; height:50px; background:rgba(8,8,8,0.96); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); display:flex; align-items:center; padding:0 18px; gap:14px; z-index:5; }
+.dots { display:flex; gap:6px; } .dot { width:12px; height:12px; border-radius:50%; }
+.dot-r{background:#ff5f57} .dot-y{background:#febc2e} .dot-g{background:#28c840}
+.chrome-url { flex:1; display:flex; justify-content:center; }
+.chrome-url span { background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:7px; padding:4px 16px; font-size:12px; color:var(--text-faint); font-family:'SF Mono','Fira Code',monospace; }
+.chrome-avs { display:flex; gap:3px; }
+.av { width:26px; height:26px; border-radius:7px; border:2px solid #090909; font-size:11px; font-weight:700; color:#fff; display:flex; align-items:center; justify-content:center; }
+.av-b{background:var(--accent)} .av-i{background:var(--accent2)}
+.ai-body { position:absolute; inset:0; top:50px; display:grid; grid-template-columns:1fr 1fr; }
+.ai-chat { border-right:1px solid var(--border); background:var(--token-5e2a9781); display:flex; flex-direction:column; padding:26px 22px; gap:18px; overflow:hidden; }
+.chat-toprow { display:flex; align-items:center; gap:8px; padding-bottom:14px; border-bottom:1px solid var(--border); font-size:12px; font-weight:600; color:var(--token-5964e09d); }
+.ai-right { display:flex; flex-direction:column; background:var(--token-e0051992); }
+.design-body{position:absolute;inset:0;top:50px;display:grid;grid-template-columns:195px 1fr 195px}
+.prop-panel{background:var(--surface);display:flex;flex-direction:column;overflow:hidden}
+.prop-l{border-right:1px solid var(--border)} .prop-r{border-left:1px solid var(--border)}
+.prop-inner{flex:1;padding:12px 13px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.prop-sec{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);font-family:'SF Mono',monospace;padding:9px 0 4px}
+.prop-row{display:flex;align-items:center;justify-content:space-between;padding:5px 6px;border-radius:5px;cursor:pointer;transition:background .15s}
+.prop-row:hover{background:var(--token-81eeded8)} .prop-row.hi{background:var(--token-bf566e33)}
+.prop-name{font-size:12px;color:var(--text-dim)} .prop-name.blue{color:var(--accent)}
+.prop-val{font-size:11px;color:var(--text-muted);font-family:'SF Mono',monospace}
+.prop-sw{width:13px;height:13px;border-radius:3px;border:1px solid rgba(255,255,255,.1)}
+.canvas-area{background:#161616;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.canvas-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03)1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03)1px,transparent 1px);background-size:22px 22px}
+.canvas-card{position:relative;z-index:2;width:55%;max-width:340px;background:var(--token-2fbf5c4b);border-radius:14px;border:1px solid var(--accent);box-shadow:0 0 0 1px rgba(0,153,255,.1),0 24px 60px rgba(0,0,0,.7);overflow:hidden}
+.canvas-card::before,.canvas-card::after{content:'';position:absolute;width:7px;height:7px;background:var(--accent);border-radius:2px;z-index:10}
+.canvas-card::before{top:-4px;right:-4px} .canvas-card::after{bottom:-4px;left:-4px}
+.cur{position:absolute;pointer-events:none;z-index:10;display:flex;align-items:flex-end;gap:4px;animation:drift 8s ease-in-out infinite}
+.cur:nth-of-type(2){animation-delay:-3.5s}
+@keyframes drift{0%,100%{transform:translate(0,0)}35%{transform:translate(13px,-11px)}70%{transform:translate(-8px,7px)}}
+.cur svg{width:13px;height:17px}
+.cpill{font-size:10px;font-weight:600;color:#fff;padding:3px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 10px 20px rgba(0,0,0,.2),0 2px 4px rgba(0,0,0,.25)}
+.cpill-b{background:var(--accent)} .cpill-i{background:var(--accent2)}
+.ctoolbar{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(8,8,8,.9);backdrop-filter:blur(5px);border:1px solid var(--border);border-radius:15px;padding:6px 10px;display:flex;align-items:center;gap:5px;box-shadow:0 10px 10px rgba(0,0,0,.3)}
+.tb{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text-faint);cursor:pointer;transition:background .15s,color .15s}
+.tb:hover,.tb.on{background:rgba(255,255,255,.1);color:#fff}
+.tb-div{width:1px;height:17px;background:var(--border);margin:0 1px}
+.tb-zoom{font-size:12px;color:var(--text);font-family:'SF Mono',monospace;padding:0 5px;display:flex;align-items:center;gap:3px}
+.cms-body{position:absolute;inset:0;top:50px;display:grid;grid-template-columns:185px 1fr 240px}
+.cms-nav{background:var(--surface);border-right:1px solid var(--border);padding:13px;overflow-y:auto}
+.cms-nav-sec{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);font-family:'SF Mono',monospace;padding:7px 0 5px}
+.cms-ni{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:6px;font-size:13px;color:var(--text-dim);cursor:pointer;transition:background .15s}
+.cms-ni:hover{background:var(--token-81eeded8)} .cms-ni.on{background:var(--token-bf566e33);color:var(--text)}
+.cms-dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex-shrink:0} .cms-dot.b{background:var(--accent)}
+.cms-main{display:flex;flex-direction:column;overflow:hidden;background:var(--surface)}
+.cms-search{display:flex;align-items:center;gap:8px;padding:10px 15px;border-bottom:1px solid var(--border);font-size:13px;color:var(--token-5964e09d)}
+.cms-thead{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:8px 15px;border-bottom:1px solid var(--border);gap:8px}
+.cms-th-c{font-size:12px;color:var(--token-5964e09d);font-weight:500}
+.cms-rows{overflow-y:auto;flex:1}
+.cms-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:9px 15px;gap:8px;border-bottom:1px solid rgba(255,255,255,.04);align-items:center;cursor:pointer;transition:background .15s}
+.cms-row:hover{background:rgba(255,255,255,.025)} .cms-row.sel{background:rgba(255,255,255,.04)}
+.cms-rname{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--token-0670237f)}
+.cms-thumb{width:19px;height:19px;border-radius:4px;flex-shrink:0}
+.cms-td{font-size:12px;color:var(--token-0670237f);font-family:'SF Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cms-detail{background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.cms-det-h{padding:12px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;color:var(--text);background:rgba(255,255,255,.02)}
+.cms-det-b{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.cms-det-l{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:6px;font-weight:600}
+.cms-det-v{font-size:12px;color:var(--text-dim);font-family:'SF Mono',monospace;line-height:1.55}
+.cms-irow{display:flex;align-items:center;gap:8px}
+.cms-dimg{width:42px;height:42px;border-radius:7px;border:1px solid var(--border);flex-shrink:0}
+.cms-body-text{font-size:12px;color:var(--text-dim);line-height:1.8}
+.cms-body-text strong{color:rgba(255,255,255,.38);font-size:10px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-top:10px;margin-bottom:2px}
+.collab-body{position:absolute;inset:0;top:50px;display:flex;flex-direction:column;background:var(--token-2fbf5c4b);overflow:hidden}
+.col-sitenav{height:44px;flex-shrink:0;display:flex;align-items:center;padding:0 26px;gap:18px;border-bottom:1px solid var(--border);background:rgba(10,10,10,.97)}
+.col-brand{font-size:14px;font-weight:600;letter-spacing:-.3px;position:relative}
+.col-brand::after{content:'';position:absolute;inset:-3px -6px;border:1px solid var(--accent);background:rgba(0,153,255,.08);border-radius:2px;box-shadow:rgba(0,153,255,.15) 0 0 0 1px;pointer-events:none}
+.col-links{display:flex;gap:16px;margin-left:auto}
+.col-link{font-size:13px;color:var(--text-dim);padding:2px 6px;border-radius:2px;cursor:pointer;border:1px solid transparent;position:relative;transition:all .2s}
+.col-link::after{content:'';position:absolute;inset:0;border:1px solid rgba(0,153,255,.2);background:rgba(0,153,255,.04);border-radius:2px;opacity:0;transition:opacity .2s}
+.col-link:hover::after{opacity:1}
+.col-hero{height:108px;flex-shrink:0;display:flex;align-items:center;padding:0 34px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.col-hero-txt{font-size:50px;font-weight:300;letter-spacing:-2.5px;line-height:1;color:var(--text)}
+.col-hero-txt::after{content:'|';animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.col-highlight{position:absolute;border:1px solid var(--accent);background:rgba(0,153,255,.08);border-radius:1px;pointer-events:none}
+.col-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);overflow:hidden}
+.col-cell{background:var(--token-2fbf5c4b);position:relative;overflow:hidden;cursor:pointer;transition:background .2s}
+.col-cell:hover{background:#111}
+.col-num{position:absolute;top:13px;left:13px;font-size:10px;font-family:'SF Mono',monospace;color:rgba(255,255,255,.14)}
+.col-editbar{position:absolute;bottom:0;left:0;right:0;padding:11px 22px;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;z-index:5}
+.edit-info{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:7px}
+.edit-dot{width:6px;height:6px;border-radius:50%;background:var(--token-281f665e);flex-shrink:0}
+.edit-acts{display:flex;gap:8px}
+.btn-sec{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-sec:hover{background:rgba(255,255,255,.1)}
+.btn-pri{background:var(--text);color:#222;border:none;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-pri:hover{opacity:.87}
+::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-track{background:transparent} ::-webkit-scrollbar-thumb{background:var(--token-81eeded8);border-radius:2px}
+</style>
+</head>
+<body>
+<div class="section-root">
+<div class="feature-grid">
+  <aside class="sidebar">
+    <h2 class="sidebar-title">From brief to live,<br>end to end</h2>
+    <nav class="nav-list">
+      <div class="nav-item" data-index="0" data-target="sec-ai">
+        <div class="nav-header"><span class="nav-label">Discover</span><svg class="nav-arrow" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9h12M10 5l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="nav-body"><p class="nav-desc">We start by getting under the skin of your business — your goals, audience, and competitors. Every great website starts with the right questions.</p><a href="#sec-ai" class="nav-learn">Our process <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5h9M7.5 3.5l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </div>
+      <div class="nav-item" data-index="1" data-target="sec-design">
+        <div class="nav-header"><span class="nav-label">Design</span><svg class="nav-arrow" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9h12M10 5l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="nav-body"><p class="nav-desc">We craft a visual identity and layout system that's unmistakably yours — purposeful, refined, and built to convert visitors into clients.</p><a href="#sec-design" class="nav-learn">Our process <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5h9M7.5 3.5l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </div>
+      <div class="nav-item" data-index="2" data-target="sec-cms">
+        <div class="nav-header"><span class="nav-label">Build</span><svg class="nav-arrow" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9h12M10 5l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="nav-body"><p class="nav-desc">Designs come to life as fast, responsive websites — with a CMS so simple your team can update content without touching a single line of code.</p><a href="#sec-cms" class="nav-learn">Our process <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5h9M7.5 3.5l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </div>
+      <div class="nav-item" data-index="3" data-target="sec-collab">
+        <div class="nav-header"><span class="nav-label">Launch</span><svg class="nav-arrow" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9h12M10 5l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="nav-body"><p class="nav-desc">We handle the full go-live — domain, hosting, performance, and SEO — then hand over a site you're proud to share, backed by ongoing support.</p><a href="#sec-collab" class="nav-learn">Our process <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5h9M7.5 3.5l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="panels">
+    <!-- DISCOVER -->
+    <div class="section" id="sec-ai">
+      <div class="showcase" data-index="0">
+        <div class="showcase-inner">
+          <div class="chrome"><div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="chrome-url"><span>studio.agency — Client Brief / Nordvik</span></div><div class="chrome-avs"><div class="av av-b">A</div><div class="av av-i">C</div></div></div>
+          <div class="ai-body">
+            <div class="ai-chat">
+              <div class="chat-toprow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="#999" stroke-width="1.4"/><path d="M4 5h6M4 7.5h4" stroke="#999" stroke-width="1.3" stroke-linecap="round"/></svg><span style="color:var(--text)">Discovery Brief</span></div>
+              <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:5px">Client</div><div style="font-size:14px;font-weight:600;color:var(--text)">Nordvik Studio</div><div style="font-size:12px;color:var(--text-dim);margin-top:2px">Architecture & Interior Design</div></div>
+                <div style="height:1px;background:var(--border)"></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:6px">Goals</div><div style="display:flex;flex-direction:column;gap:5px"><div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim)"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>Attract high-end residential clients</div><div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim)"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>Showcase portfolio with full-screen imagery</div><div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim)"><div style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>Drive project enquiries via contact form</div></div></div>
+                <div style="height:1px;background:var(--border)"></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:6px">Tone & Feel</div><div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:12px;color:var(--text-dim)">Minimal</span><span style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:12px;color:var(--text-dim)">Luxury</span><span style="background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:12px;color:var(--text-dim)">Editorial</span><span style="background:rgba(0,153,255,.1);border:1px solid rgba(0,153,255,.3);border-radius:5px;padding:3px 9px;font-size:12px;color:var(--accent)">Nordic</span></div></div>
+                <div style="height:1px;background:var(--border)"></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:6px">Competitors</div><div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:12px;color:var(--text-dim)">snohetta.com</div><div style="font-size:12px;color:var(--text-dim)">bjarkeingels.com</div><div style="font-size:12px;color:var(--text-muted)">+ 3 more</div></div></div>
+              </div>
+            </div>
+            <div class="ai-right" style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--border);">
+              <div style="background:#0e0e0e;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:linear-gradient(145deg,#111,#1a1a14);opacity:.8"></div><div style="position:relative;z-index:1"><div style="height:3px;width:30px;background:rgba(255,255,255,.2);border-radius:2px;margin-bottom:8px"></div><div style="font-size:10px;color:rgba(255,255,255,.4);font-family:'SF Mono',monospace">Typography</div><div style="font-size:22px;font-weight:300;letter-spacing:-1px;color:rgba(255,255,255,.8);line-height:1.1;margin-top:3px">Nordvik</div></div></div>
+              <div style="background:#0a0a0a;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:14px"><div style="font-size:10px;color:rgba(255,255,255,.3);font-family:'SF Mono',monospace;align-self:flex-start">Colour Palette</div><div style="display:flex;gap:6px;align-self:flex-start;margin-top:2px"><div style="width:28px;height:28px;border-radius:6px;background:#1a1a1a;border:1px solid rgba(255,255,255,.08)"></div><div style="width:28px;height:28px;border-radius:6px;background:#e8e2d9"></div><div style="width:28px;height:28px;border-radius:6px;background:#c4b9a8"></div><div style="width:28px;height:28px;border-radius:6px;background:#2d3a2e"></div></div><div style="display:flex;flex-direction:column;gap:3px;width:100%;margin-top:4px"><div style="height:3px;background:rgba(255,255,255,.06);border-radius:2px"></div><div style="height:3px;background:rgba(255,255,255,.04);border-radius:2px;width:70%"></div></div></div>
+              <div style="background:#0c0c0c;padding:14px;display:flex;flex-direction:column;gap:8px"><div style="font-size:10px;color:rgba(255,255,255,.3);font-family:'SF Mono',monospace">Pages</div><div style="display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:12px;color:var(--text-dim)">Home</span><span style="font-size:10px;color:var(--accent)">✓</span></div><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:12px;color:var(--text-dim)">Projects</span><span style="font-size:10px;color:var(--accent)">✓</span></div><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:12px;color:var(--text-dim)">About</span><span style="font-size:10px;color:var(--accent)">✓</span></div><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0"><span style="font-size:12px;color:var(--text-dim)">Contact</span><span style="font-size:10px;color:var(--accent)">✓</span></div></div></div>
+              <div style="background:#080808;padding:14px;display:flex;flex-direction:column;gap:8px"><div style="font-size:10px;color:rgba(255,255,255,.3);font-family:'SF Mono',monospace">Timeline</div><div style="display:flex;flex-direction:column;gap:6px;margin-top:2px"><div style="display:flex;align-items:center;gap:8px"><div style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0"></div><div style="flex:1"><div style="font-size:11px;color:var(--text-dim)">Discovery</div><div style="height:3px;background:var(--accent);border-radius:2px;margin-top:3px;opacity:.6"></div></div></div><div style="display:flex;align-items:center;gap:8px"><div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0"></div><div style="flex:1"><div style="font-size:11px;color:var(--text-muted)">Design — Wk 2–4</div><div style="height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:3px"></div></div></div><div style="display:flex;align-items:center;gap:8px"><div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0"></div><div style="flex:1"><div style="font-size:11px;color:var(--text-muted)">Build — Wk 5–7</div><div style="height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:3px"></div></div></div><div style="display:flex;align-items:center;gap:8px"><div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0"></div><div style="flex:1"><div style="font-size:11px;color:var(--text-muted)">Launch — Wk 8</div><div style="height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:3px"></div></div></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN -->
+    <div class="section" id="sec-design">
+      <div class="showcase" data-index="1">
+        <div class="showcase-inner">
+          <div class="chrome"><div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="chrome-url"><span>studio.agency — Design / Nordvik Homepage</span></div><div class="chrome-avs"><div class="av av-b">A</div><div class="av av-i">C</div></div></div>
+          <div class="design-body">
+            <div class="prop-panel prop-l"><div class="prop-inner">
+              <div class="prop-sec">Pages</div>
+              <div class="prop-row hi"><span class="prop-name" style="color:var(--text)">Home</span></div>
+              <div class="prop-row"><span class="prop-name">Projects</span></div>
+              <div class="prop-row"><span class="prop-name">About</span></div>
+              <div class="prop-row"><span class="prop-name">Contact</span></div>
+              <div class="prop-sec" style="margin-top:8px">Layers</div>
+              <div class="prop-row hi"><span class="prop-name blue">◻ Hero</span></div>
+              <div class="prop-row" style="padding-left:17px"><span class="prop-name">T Studio Name</span></div>
+              <div class="prop-row" style="padding-left:17px"><span class="prop-name">🖼 Hero Image</span></div>
+              <div class="prop-row" style="padding-left:17px"><span class="prop-name">T Tagline</span></div>
+              <div class="prop-row"><span class="prop-name">◻ Project Grid</span></div>
+              <div class="prop-row"><span class="prop-name">◻ About Strip</span></div>
+              <div class="prop-row"><span class="prop-name">◻ Footer</span></div>
+            </div></div>
+            <div class="canvas-area">
+              <div class="canvas-grid"></div>
+              <div class="cur" style="top:28%;left:54%"><svg viewBox="0 0 13 17" fill="none"><path d="M0 0L0 13L3 10L5.5 15.5L7.5 14.5L5 9L9 9Z" fill="var(--accent)"/></svg><div class="cpill cpill-b">Alex</div></div>
+              <div class="cur" style="top:62%;left:33%"><svg viewBox="0 0 13 17" fill="none"><path d="M0 0L0 13L3 10L5.5 15.5L7.5 14.5L5 9L9 9Z" fill="var(--accent2)"/></svg><div class="cpill cpill-i">Client</div></div>
+              <div class="canvas-card" style="max-width:380px;width:60%">
+                <div style="padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;background:#0e0e0e"><div style="font-size:11px;font-weight:600;letter-spacing:-.3px;color:var(--text)">Nordvik Studio</div><div style="display:flex;gap:12px"><div style="font-size:9px;color:var(--text-muted)">Projects</div><div style="font-size:9px;color:var(--text-muted)">About</div><div style="font-size:9px;color:var(--text-muted)">Contact</div></div></div>
+                <div style="height:120px;background:linear-gradient(160deg,#1a1a14,#141410,#1e1e16);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px"><div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.6))"></div><div style="position:relative;z-index:1"><div style="font-size:20px;font-weight:300;letter-spacing:-1px;color:#fff;line-height:1.05">Architecture<br>& Interiors</div><div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:4px">Oslo, Norway — Est. 2012</div></div></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.06)"><div style="height:38px;background:linear-gradient(135deg,#1a1810,#221e14)"></div><div style="height:38px;background:linear-gradient(135deg,#101418,#141820)"></div><div style="height:38px;background:linear-gradient(135deg,#141414,#1c1c1c)"></div></div>
+              </div>
+              <div class="ctoolbar"><div class="tb on"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l3.5 9 1.8-3.2 3.2-1.8L1 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div class="tb"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="2" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></div><div class="tb"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.3"/></svg></div><div class="tb-div"></div><div class="tb-zoom">75%</div></div>
+            </div>
+            <div class="prop-panel prop-r"><div class="prop-inner">
+              <div class="prop-sec">Fill</div>
+              <div class="prop-row"><div class="prop-sw" style="background:#1a1a14"></div><span class="prop-val">#1A1A14</span></div>
+              <div class="prop-sec" style="margin-top:7px">Typography</div>
+              <div class="prop-row"><span class="prop-name">Font</span><span class="prop-val">Neue Haas</span></div>
+              <div class="prop-row"><span class="prop-name">Size</span><span class="prop-val">20px</span></div>
+              <div class="prop-row"><span class="prop-name">Weight</span><span class="prop-val">300</span></div>
+              <div class="prop-row"><span class="prop-name">Tracking</span><span class="prop-val">-1px</span></div>
+              <div class="prop-sec" style="margin-top:7px">Spacing</div>
+              <div class="prop-row"><span class="prop-name">Padding</span><span class="prop-val">14 16</span></div>
+              <div class="prop-row"><span class="prop-name">Gap</span><span class="prop-val">1px</span></div>
+              <div class="prop-sec" style="margin-top:7px">Effects</div>
+              <div class="prop-row"><span class="prop-name">Overlay</span><span class="prop-val">0→60%</span></div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUILD -->
+    <div class="section" id="sec-cms">
+      <div class="showcase" data-index="2">
+        <div class="showcase-inner">
+          <div class="chrome"><div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="chrome-url"><span>studio.agency — CMS / Nordvik Projects</span></div><div class="chrome-avs"><div class="av av-b">A</div><div class="av av-i">C</div></div></div>
+          <div class="cms-body">
+            <div class="cms-nav"><div class="cms-nav-sec">Collections</div><div class="cms-ni on"><div class="cms-dot b"></div>Projects</div><div class="cms-ni"><div class="cms-dot"></div>Team</div><div class="cms-ni"><div class="cms-dot"></div>Services</div><div class="cms-ni"><div class="cms-dot"></div>Press</div><div class="cms-ni"><div class="cms-dot"></div>Settings</div></div>
+            <div class="cms-main">
+              <div class="cms-search"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M9 9l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Search 24 projects…</div>
+              <div class="cms-thead"><div class="cms-th-c">Project</div><div class="cms-th-c">Type</div><div class="cms-th-c">Year</div><div class="cms-th-c">Status</div></div>
+              <div class="cms-rows">
+                <div class="cms-row sel"><div class="cms-rname"><div class="cms-thumb" style="background:linear-gradient(135deg,#1a1810,#22201a)"></div>Villa Tjøme</div><div class="cms-td">Residential</div><div class="cms-td">2025</div><div class="cms-td" style="color:var(--token-281f665e)">Live</div></div>
+                <div class="cms-row"><div class="cms-rname"><div class="cms-thumb" style="background:linear-gradient(135deg,#101820,#141e28)"></div>Aker Brygge Office</div><div class="cms-td">Commercial</div><div class="cms-td">2025</div><div class="cms-td" style="color:var(--token-281f665e)">Live</div></div>
+                <div class="cms-row"><div class="cms-rname"><div class="cms-thumb" style="background:linear-gradient(135deg,#181010,#201414)"></div>Holmenkollen Cabin</div><div class="cms-td">Residential</div><div class="cms-td">2024</div><div class="cms-td" style="color:var(--token-281f665e)">Live</div></div>
+                <div class="cms-row"><div class="cms-rname"><div class="cms-thumb" style="background:linear-gradient(135deg,#101418,#14181e)"></div>Tjuvholmen Gallery</div><div class="cms-td">Cultural</div><div class="cms-td">2024</div><div class="cms-td" style="color:var(--token-281f665e)">Live</div></div>
+                <div class="cms-row"><div class="cms-rname"><div class="cms-thumb" style="background:linear-gradient(135deg,#141810,#181e14)"></div>Bygdøy Residence</div><div class="cms-td">Residential</div><div class="cms-td">2024</div><div class="cms-td" style="color:rgba(255,200,80,.8)">Draft</div></div>
+                <div class="cms-row"><div class="cms-rname"><div class="cms-thumb" style="background:linear-gradient(135deg,#181018,#1e141e)"></div>Frogner Penthouse</div><div class="cms-td">Interior</div><div class="cms-td">2023</div><div class="cms-td" style="color:var(--token-281f665e)">Live</div></div>
+              </div>
+            </div>
+            <div class="cms-detail">
+              <div class="cms-det-h">Villa Tjøme</div>
+              <div class="cms-det-b"><div class="cms-det-l">Cover Image</div><div class="cms-irow"><div class="cms-dimg" style="background:linear-gradient(135deg,#1a1810,#22201a)"></div><span class="cms-det-v" style="font-size:11px">villa-tjome-hero.jpg</span></div></div>
+              <div class="cms-det-b"><div class="cms-det-l">Type</div><div class="cms-det-v">Residential</div></div>
+              <div class="cms-det-b"><div class="cms-det-l">Location</div><div class="cms-det-v">Tjøme, Norway</div></div>
+              <div class="cms-det-b"><div class="cms-det-l">Year</div><div class="cms-det-v">2025</div></div>
+              <div class="cms-det-b" style="flex:1"><div class="cms-det-l">Description</div><div class="cms-body-text">A coastal retreat designed around the existing landscape — raw concrete, reclaimed oak, and floor-to-ceiling glazing framing the Oslo Fjord.<strong>Details</strong>· 340 sqm floor area<br>· Passive house certified<br>· Interior design included<strong>Awards</strong>· AIT Award 2025<br>· Norwegian Design Council</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAUNCH -->
+    <div class="section" id="sec-collab">
+      <div class="showcase" data-index="3">
+        <div class="showcase-inner">
+          <div class="chrome"><div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div><div class="chrome-url"><span>nordvikstudio.no</span></div><div class="chrome-avs"><div class="av av-b">A</div><div class="av av-i">C</div></div></div>
+          <div class="collab-body">
+            <div class="col-sitenav"><div class="col-brand">Nordvik Studio</div><div class="col-links"><div class="col-link">Projects</div><div class="col-link">About</div><div class="col-link">Services</div><div class="col-link">Press</div><div class="col-link" style="margin-left:5px">Contact</div></div></div>
+            <div class="col-hero" style="background:linear-gradient(160deg,#111,#161610,#1a1a14)">
+              <div class="col-hero-txt" id="hero-txt"></div>
+              <div class="col-highlight" style="top:20%;left:3%;width:260px;height:58px;"></div>
+              <div style="position:absolute;top:18px;right:20px;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:4px 10px;backdrop-filter:blur(8px)"><div style="width:6px;height:6px;border-radius:50%;background:var(--token-281f665e);box-shadow:0 0 6px var(--token-281f665e)"></div><span style="font-size:11px;font-weight:600;color:var(--text)">Live</span></div>
+            </div>
+            <div class="col-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="col-cell" style="background:linear-gradient(155deg,#0a0a0a,#0d100a)"><div class="col-num">01</div><div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:18px"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Visitors</div><div style="font-size:26px;font-weight:300;letter-spacing:-1px;color:var(--text);line-height:1">2,841</div><div style="font-size:10px;color:var(--token-281f665e);margin-top:4px">↑ 34% this week</div><div style="height:2px;background:rgba(255,255,255,.06);border-radius:1px;margin-top:10px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:68%;background:var(--accent);border-radius:1px;opacity:.5"></div></div></div></div>
+              <div class="col-cell" style="background:linear-gradient(155deg,#0a0a0a,#0a0d10)"><div class="col-num">02</div><div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:18px"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Perf. Score</div><div style="font-size:26px;font-weight:300;letter-spacing:-1px;color:var(--text);line-height:1">98</div><div style="font-size:10px;color:var(--token-281f665e);margin-top:4px">Lighthouse</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:8px"><div style="font-size:9px;color:var(--text-muted)">SEO <span style="color:var(--token-281f665e)">100</span></div><div style="font-size:9px;color:var(--text-muted)">A11y <span style="color:var(--token-281f665e)">96</span></div></div></div></div>
+              <div class="col-cell" style="background:linear-gradient(155deg,#0a0a0a,#0d0a10)"><div class="col-num">03</div><div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:18px"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Enquiries</div><div style="font-size:26px;font-weight:300;letter-spacing:-1px;color:var(--text);line-height:1">12</div><div style="font-size:10px;color:var(--token-281f665e);margin-top:4px">First 7 days</div><div style="height:2px;background:rgba(255,255,255,.06);border-radius:1px;margin-top:10px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:85%;background:var(--accent2);border-radius:1px;opacity:.5"></div></div></div></div>
+              <div class="col-cell" style="background:linear-gradient(155deg,#0a0a0a,#100a0a)"><div class="col-num">04</div><div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:18px;gap:8px"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px">Handoff</div><div style="display:flex;flex-direction:column;gap:5px;margin-top:2px"><div style="display:flex;align-items:center;gap:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--token-281f665e)"></div><span style="font-size:11px;color:var(--text-dim)">CMS training</span></div><div style="display:flex;align-items:center;gap:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--token-281f665e)"></div><span style="font-size:11px;color:var(--text-dim)">Domain transferred</span></div><div style="display:flex;align-items:center;gap:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--token-281f665e)"></div><span style="font-size:11px;color:var(--text-dim)">Analytics set up</span></div><div style="display:flex;align-items:center;gap:6px"><div style="width:5px;height:5px;border-radius:50%;background:var(--token-281f665e)"></div><span style="font-size:11px;color:var(--text-dim)">30-day support</span></div></div></div></div>
+            </div>
+            <div class="col-editbar"><div class="edit-info"><div class="edit-dot"></div>nordvikstudio.no is live — launched March 18, 2026</div><div class="edit-acts"><button class="btn-sec"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v6M3 4l3-3 3 3M2 9h8" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Share report</button><button class="btn-pri">View live site</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const showcases=document.querySelectorAll('.showcase'),navItems=document.querySelectorAll('.nav-item');
+function easeSmoothstep(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)}
+function update(){const vh=window.innerHeight,viewCenter=vh/2;let closestIdx=0,closestDist=Infinity;
+showcases.forEach((sc,i)=>{const section=sc.parentElement,rect=section.getBoundingClientRect(),sectionCenter=rect.top+rect.height/2,dist=Math.abs(sectionCenter-viewCenter);
+if(dist<closestDist){closestDist=dist;closestIdx=i}
+const raw=Math.min(dist/(vh*0.6),1),progress=easeSmoothstep(raw),opacity=1-progress*0.45,tx=progress*18;
+sc.style.opacity=opacity;sc.style.transform=`translateX(${tx}px)`});
+navItems.forEach(n=>n.classList.remove('active'));
+const match=document.querySelector(`.nav-item[data-index="${closestIdx}"]`);if(match)match.classList.add('active')}
+navItems.forEach(item=>{item.querySelector('.nav-header').addEventListener('click',()=>{document.getElementById(item.dataset.target)?.scrollIntoView({behavior:'smooth'})})});
+let ticking=false;window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{update();ticking=false});ticking=true}},{passive:true});
+update();
+const words=['Architecture.','Interiors.','Materials.','Craft.'],heroEl=document.getElementById('hero-txt'),tNode=document.createTextNode('');
+heroEl.appendChild(tNode);let wi=0,ci=0,del=false;
+(function tick(){const w=words[wi];del?ci--:ci++;tNode.textContent=w.slice(0,ci);
+if(!del&&ci===w.length){del=true;setTimeout(tick,1800);return}
+if(del&&ci===0){del=false;wi=(wi+1)%words.length}setTimeout(tick,del?36:80)})();
+</script>
+</body>
+</html>
