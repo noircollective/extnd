@@ -286,6 +286,16 @@
   100% { transform: translateX(100%); }
 }
 
+.cs-card-note {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 /* Card type: data rows */
 .cs-data {
   display: flex;
@@ -320,6 +330,7 @@
   color: rgba(255,255,255,0.55);
   line-height: 1.55;
   margin-top: 6px;
+  white-space: pre-line;
 }
 
 /* ── Bottom bar ── */

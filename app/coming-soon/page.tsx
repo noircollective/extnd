@@ -11,22 +11,23 @@ import "./coming-soon.css";
 /* ─── Local translations (so we never touch i18n.tsx) ─────────── */
 
 const cs = {
-  heading1:    { sl: "SKUHALI BOMO",  en: "WE ARE COOKING" },
-  heading2:    { sl: "BANGER",        en: "UP A BANGER" },
+  heading:     { sl: "PRIPRAVLJAMO NEKAJ NOVEGA", en: "WE'RE BUILDING SOMETHING NEW" },
   tagline: {
-    sl: "Nekaj velikega se pripravlja. Naša ekipa gradi nekaj, kar boste morali doživeti. Ostanite na tekočem.",
-    en: "Something massive is in the works. Our crew is building something you'll have to experience. Stay tuned.",
+    sl: "Nastaja nova izkušnja. Vpišite svoj e-naslov in obvestili vas bomo, ko bo pripravljena.",
+    en: "A new experience is taking shape. Leave your email and we'll let you know when it's ready.",
   },
-  placeholder: { sl: "vaš@email.si",         en: "your@email.com" },
+  placeholder: { sl: "vas@email.com",              en: "your@email.com" },
   success:     { sl: "Odlično! Obvestili vas bomo. 🔥", en: "You're in. We'll let you know. 🔥" },
-  status:      { sl: "STATUS BANGERJA",       en: "BANGER STATUS" },
-  statusVal:   { sl: "85% Skuhan",            en: "85% Cooked" },
-  logs:        { sl: "KUHINJSKI DNEVNIK",     en: "CHEF LOGS" },
-  recipe:      { sl: "Recept",                en: "Recipe" },
-  recipeVal:   { sl: "STROGO ZAUPNO",         en: "TOP SECRET" },
-  flavor:      { sl: "Okus",                  en: "Flavor" },
-  flavorVal:   { sl: "NEUSTAVLJEN",           en: "UNMATCHED" },
-  eta:         { sl: "Vrata kuhinje se odpirajo kmalu. Bodite pripravljeni.", en: "Kitchen doors opening soon. Be ready." },
+  status:      { sl: "Status",                     en: "Status" },
+  statusVal:   { sl: "85 % zaključeno",            en: "85% complete" },
+  statusNote:  { sl: "V nastajanju",               en: "In progress" },
+  notes:       { sl: "Opombe",                     en: "Notes" },
+  concept:     { sl: "Koncept",                    en: "Concept" },
+  conceptVal:  { sl: "izpopolnjen",                en: "refined" },
+  quality:     { sl: "Kakovost",                   en: "Quality" },
+  qualityVal:  { sl: "brez kompromisov",           en: "uncompromised" },
+  launch:      { sl: "Lansiranje",                 en: "Launch" },
+  eta:         { sl: "Odpiramo kmalu.\nDatum bomo najprej objavili tukaj.", en: "Opening soon.\nWe'll share the date here first." },
 } as const;
 
 type CsKey = keyof typeof cs;
@@ -209,9 +210,7 @@ export default function ComingSoonPage() {
 
         {/* Heading */}
         <h1 className="cs-heading">
-          {t("heading1")}
-          <br />
-          <span className="cs-heading-outline">{t("heading2")}</span>
+          {t("heading")}
         </h1>
 
         {/* Divider */}
@@ -225,34 +224,35 @@ export default function ComingSoonPage() {
 
         {/* Status cards */}
         <div className="cs-grid">
-          {/* 001 — Progress */}
+          {/* 001 — Status */}
           <div className="cs-card">
             <span className="cs-card-id">001 // {t("status")}</span>
             <div className="cs-progress-row">
               <span className="cs-progress-value">{t("statusVal")}</span>
               <div className="cs-progress-bar"><div className="cs-progress-fill" /></div>
             </div>
+            <span className="cs-card-note">{t("statusNote")}</span>
           </div>
 
-          {/* 002 — Data */}
+          {/* 002 — Notes */}
           <div className="cs-card">
-            <span className="cs-card-id">002 // {t("logs")}</span>
+            <span className="cs-card-id">002 // {t("notes")}</span>
             <div className="cs-data">
               <div className="cs-data-row">
-                <span>{t("recipe")}</span>
-                <span className="cs-data-val">{t("recipeVal")}</span>
+                <span>{t("concept")}</span>
+                <span className="cs-data-val">{t("conceptVal")}</span>
               </div>
               <div className="cs-data-line" />
               <div className="cs-data-row">
-                <span>{t("flavor")}</span>
-                <span className="cs-data-val">{t("flavorVal")}</span>
+                <span>{t("quality")}</span>
+                <span className="cs-data-val">{t("qualityVal")}</span>
               </div>
             </div>
           </div>
 
-          {/* 003 — ETA */}
+          {/* 003 — Launch */}
           <div className="cs-card">
-            <span className="cs-card-id">003 // ETA</span>
+            <span className="cs-card-id">003 // {t("launch")}</span>
             <p className="cs-card-text">{t("eta")}</p>
           </div>
         </div>
