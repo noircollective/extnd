@@ -103,6 +103,7 @@
 /* ── Heading ── */
 .cs-heading {
   text-align: center;
+  font-family: var(--font-heading), sans-serif;
   font-size: clamp(3rem, 9.5vw, 11rem);
   font-weight: 900;
   line-height: 0.88;

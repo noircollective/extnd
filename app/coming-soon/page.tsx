@@ -5,8 +5,15 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, MeshDistortMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
+import { Inter } from "next/font/google";
 import { useTranslation, LanguageSwitcher } from "@/lib/i18n";
 import "./coming-soon.css";
+
+const headingFont = Inter({
+  subsets: ["latin", "latin-ext"],
+  weight: ["900"],
+  variable: "--font-heading",
+});
 
 /* ─── Local translations (so we never touch i18n.tsx) ─────────── */
 
@@ -181,7 +188,7 @@ export default function ComingSoonPage() {
   }, []);
 
   return (
-    <div ref={root} className="cs-page">
+    <div ref={root} className={`cs-page ${headingFont.variable}`}>
       {/* 3D background */}
       <div className="cs-canvas-wrap">
         <Canvas camera={{ position: [0, 0, 60], fov: 35 }} frameloop="demand">
