@@ -206,7 +206,7 @@ export default function ComingSoonPage() {
         {/* Brand chip */}
         <div className="cs-brand">
           <div className="cs-brand-dot" />
-          <span className="cs-brand-name">noir.labs</span>
+          <span className="cs-brand-name">extnd</span>
         </div>
 
         {/* Heading */}
@@ -263,11 +263,11 @@ export default function ComingSoonPage() {
 
       {/* ── Footer ── */}
       <div className="cs-footer">
-        <span className="cs-copy">© 2026 noir labs</span>
+        <span className="cs-copy">© 2026 extnd</span>
         <div className="cs-links">
           <a href="#" className="cs-link" aria-label="Instagram" id="cs-ig"><IconIG /></a>
           <a href="#" className="cs-link" aria-label="LinkedIn" id="cs-li"><IconLI /></a>
-          <a href="mailto:hello@noirlabs.si" className="cs-link" aria-label="Email" id="cs-mail"><IconMail /></a>
+          <a href="mailto:hello@extnd.si" className="cs-link" aria-label="Email" id="cs-mail"><IconMail /></a>
         </div>
       </div>
     </div>
