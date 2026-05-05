@@ -137,7 +137,7 @@ export const Component = () => {
       </div>
 
       <div ref={revealRef} className="relative z-10 w-full flex flex-col md:flex-row p-8 md:p-14 lg:p-20 min-h-screen items-center md:items-stretch gap-10">
-        <div className="flex-1 min-w-0 flex flex-col justify-between pb-12 md:pb-8 w-full">
+        <div className="flex-1 min-w-0 flex flex-col justify-center md:justify-between pb-12 md:pb-8 w-full gap-6 md:gap-0">
           <div className="flex items-center gap-3">
             <div className="relative w-2.5 h-2.5 bg-white rounded-full">
               <div className="absolute inset-0 bg-white rounded-full animate-ping opacity-30" />
@@ -145,7 +145,7 @@ export const Component = () => {
             <span className="font-mono text-[11px] font-bold text-white tracking-[0.2em] uppercase">noir.labs</span>
           </div>
 
-          <div className="max-w-4xl lg:-translate-y-8 pr-4 md:pr-12">
+          <div className="max-w-4xl pr-4 md:pr-12">
             <h1 className="text-[clamp(3.5rem,9.5vw,11.5rem)] font-black leading-[0.87] tracking-tighter text-white uppercase">
               {t("hero.creative")} <br /> <span className="text-outline">{t("hero.agency")}</span>
             </h1>
@@ -154,7 +154,7 @@ export const Component = () => {
             </p>
           </div>
 
-          <button ref={ctaRef} className="w-fit flex items-center gap-4 sm:gap-6 group lg:-translate-y-20">
+          <button ref={ctaRef} className="w-fit flex items-center gap-4 sm:gap-6 group">
             <div className="w-14 h-14 rounded-full border border-white/15 flex items-center justify-center group-hover:bg-white transition-all duration-500 overflow-hidden">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="group-hover:stroke-black stroke-white transition-colors duration-500">
                 <path d="M7 17L17 7M17 7H8M17 7V16" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />

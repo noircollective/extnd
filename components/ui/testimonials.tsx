@@ -73,33 +73,37 @@ const TESTIMONIALS: Testimonial[] = [
 export function TestimonialsSection() {
   const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [metrics, setMetrics] = useState({ cardWidth: 0, viewportWidth: 0, gap: 32 });
+  const [metrics, setMetrics] = useState({ contentLeft: 0, contentWidth: 1200, gap: 32 });
   
-  const cardRef = useRef<HTMLDivElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     let animationFrameId: number;
 
     const measure = () => {
-      if (cardRef.current && viewportRef.current && trackRef.current) {
-        const cWidth = cardRef.current.offsetWidth;
-        const vWidth = viewportRef.current.offsetWidth;
-        
-        let g = 32;
+      let g = 32;
+      if (trackRef.current) {
         const computedGap = getComputedStyle(trackRef.current).gap;
         if (computedGap && computedGap !== "normal") {
           g = parseFloat(computedGap) || 32;
         } else if (window.innerWidth <= 768) {
           g = 16;
         }
-
-        setMetrics(prev => {
-          if (prev.cardWidth === cWidth && prev.viewportWidth === vWidth && prev.gap === g) return prev;
-          return { cardWidth: cWidth, viewportWidth: vWidth, gap: g };
-        });
       }
+
+      let cLeft = 0;
+      let cWidth = 1200;
+      if (contentRef.current) {
+        const rect = contentRef.current.getBoundingClientRect();
+        cLeft = rect.left;
+        cWidth = rect.width;
+      }
+
+      setMetrics(prev => {
+        if (prev.contentLeft === cLeft && prev.contentWidth === cWidth && prev.gap === g) return prev;
+        return { contentLeft: cLeft, contentWidth: cWidth, gap: g };
+      });
     };
 
     const observer = new ResizeObserver(() => {
@@ -107,9 +111,8 @@ export function TestimonialsSection() {
       animationFrameId = requestAnimationFrame(measure);
     });
 
-    if (viewportRef.current) observer.observe(viewportRef.current);
-    if (cardRef.current) observer.observe(cardRef.current);
     if (trackRef.current) observer.observe(trackRef.current);
+    if (contentRef.current) observer.observe(contentRef.current);
 
     measure(); // initial measurement
 
@@ -133,24 +136,25 @@ export function TestimonialsSection() {
 
   const headingParts = t("testimonials.heading").split("\n");
   
-  // Center the active card dynamically
-  const centerOffset = (metrics.viewportWidth - metrics.cardWidth) / 2;
-  const offset = centerOffset - activeIndex * (metrics.cardWidth + metrics.gap);
+  // Position active card so its left edge aligns with the content container
+  const offset = metrics.contentLeft - activeIndex * (metrics.contentWidth + metrics.gap);
 
   return (
     <div 
       className="ts-section"
-      style={{ "--vw": `${metrics.viewportWidth || 1000}px` } as React.CSSProperties}
+      style={{ "--card-w": `${metrics.contentWidth}px` } as React.CSSProperties}
     >
       {/* Section heading */}
-      <div className="ts-heading-wrap">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.02em] text-white leading-[1.1]">
-          {headingParts[0]}<br />{headingParts[1]}
-        </h2>
+      <div className="ts-heading-wrap px-4 sm:px-8 md:px-14 lg:px-20">
+        <div className="w-full max-w-[1200px] mx-auto" ref={contentRef}>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.02em] text-white leading-[1.1]">
+            {headingParts[0]}<br />{headingParts[1]}
+          </h2>
+        </div>
       </div>
 
       {/* Carousel viewport */}
-      <div className="ts-carousel-viewport" ref={viewportRef}>
+      <div className="ts-carousel-viewport">
         <div
           ref={trackRef}
           className="ts-carousel-track"
@@ -159,7 +163,6 @@ export function TestimonialsSection() {
           {TESTIMONIALS.map((item, i) => (
             <div
               key={item.company}
-              ref={i === 0 ? cardRef : undefined}
               className={cn("ts-card", i === activeIndex && "ts-card-active")}
               onClick={() => i !== activeIndex && goTo(i)}
             >
@@ -236,7 +239,8 @@ export function TestimonialsSection() {
       </div>
 
       {/* Bottom: company tabs + navigation */}
-      <div className="ts-bottom">
+      <div className="ts-bottom px-4 sm:px-8 md:px-14 lg:px-20">
+        <div className="w-full max-w-[1200px] mx-auto flex items-center justify-between">
         <div className="ts-tabs">
           {TESTIMONIALS.map((item, i) => (
             <button
@@ -255,6 +259,7 @@ export function TestimonialsSection() {
           <button onClick={goNext} className="ts-nav-btn" aria-label="Next testimonial">
             <ChevronRight className="w-4 h-4" />
           </button>
+        </div>
         </div>
       </div>
     </div>

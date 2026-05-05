@@ -16,7 +16,7 @@ export function GlowingEffectDemo() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column (Analytics) */}
-        <GridItem className="lg:col-span-5 relative z-10 flex flex-col max-lg:aspect-square max-lg:h-auto">
+        <GridItem className="lg:col-span-5 relative z-10 flex flex-col max-lg:aspect-square max-lg:h-auto max-lg:w-full min-w-0">
           <div className="flex flex-col h-full gap-8">
             <div className="space-y-2">
               <h3 className="text-lg font-medium text-white tracking-tight">{t("demo.analyticsTitle")}</h3>
@@ -115,10 +115,10 @@ export function GlowingEffectDemo() {
         </GridItem>
 
         {/* Right Column (A/B Testing + SEO/Perf) */}
-        <div className="lg:col-span-7 flex flex-col gap-6 h-full relative z-10">
+        <div className="lg:col-span-7 flex flex-col gap-6 h-full relative z-10 min-w-0">
 
           {/* Top Right Card (A/B Testing) */}
-          <GridItem className="min-h-[460px] flex-1 max-lg:aspect-square max-lg:h-auto">
+          <GridItem className="lg:min-h-[460px] flex-1 max-lg:aspect-square max-lg:h-auto max-lg:w-full min-w-0">
             <div className="flex flex-col h-full gap-8">
               <div className="space-y-2">
                 <h3 className="text-lg font-medium text-white tracking-tight">{t("demo.abTestingTitle")}</h3>
@@ -130,7 +130,7 @@ export function GlowingEffectDemo() {
                 </button>
               </div>
 
-              <div className="mt-auto border border-white/5 rounded-2xl bg-[#0a0a0a] flex-1 overflow-hidden flex relative shadow-inner">
+              <div className="mt-auto border border-white/5 rounded-2xl bg-[#0a0a0a] flex-1 overflow-hidden flex relative shadow-inner min-w-0 w-full">
                 {/* Editor Sidebar */}
                 <div className="w-52 bg-[#0c0c0c] border-r border-white/5 flex flex-col">
                   <div className="h-12 border-b border-white/5 flex items-center gap-4 px-4">
@@ -178,7 +178,7 @@ export function GlowingEffectDemo() {
                 </div>
 
                 {/* Editor Content Area */}
-                <div className="flex-1 bg-[#050505] relative isolate overflow-hidden p-6 md:p-8 flex flex-col items-center">
+                <div className="flex-1 bg-[#050505] relative isolate overflow-hidden p-6 md:p-8 flex flex-col items-center min-w-0">
                   <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] z-[-1]"></div>
 
                   <div className="bg-[#1a4b8c]/20 text-[#60a5fa] px-4 py-1.5 border border-[#3b82f6]/30 rounded-full text-xs font-medium flex items-center gap-2 z-10 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.15)] mb-8">
@@ -222,7 +222,7 @@ export function GlowingEffectDemo() {
           </GridItem>
 
           {/* Bottom Right Card (SEO Performance) */}
-          <GridItem className="min-h-[300px] max-lg:aspect-square max-lg:h-auto">
+          <GridItem className="lg:min-h-[300px] max-lg:aspect-square max-lg:h-auto max-lg:w-full min-w-0">
             <div className="flex flex-col h-full gap-8">
               <div className="space-y-2">
                 <h3 className="text-lg font-medium text-white tracking-tight">{t("demo.seoTitle")}</h3>

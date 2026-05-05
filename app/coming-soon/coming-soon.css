@@ -1,0 +1,431 @@
+/* ═══════════════════════════════════════════════════════════════
+   Coming Soon — Self-contained Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Page shell */
+.cs-page {
+  position: relative;
+  min-height: 100vh;
+  background: #020202;
+  overflow: hidden;
+  color: #fff;
+}
+
+.cs-page ::selection {
+  background: #fff;
+  color: #000;
+}
+
+/* ── 3D Canvas ── */
+.cs-canvas-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Grain overlay ── */
+.cs-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.08;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Language switcher ── */
+.cs-lang {
+  position: fixed;
+  top: 28px;
+  right: 28px;
+  z-index: 60;
+}
+
+@media (min-width: 768px) {
+  .cs-lang { top: 36px; right: 36px; }
+}
+
+/* ── Main layout ── */
+.cs-main {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 24px 100px;
+}
+
+/* ── Brand / logo chip ── */
+.cs-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+.cs-brand-dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.cs-brand-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: 50%;
+  animation: cs-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes cs-ping {
+  0%   { transform: scale(1); opacity: 0.35; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+.cs-brand-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ── Heading ── */
+.cs-heading {
+  text-align: center;
+  font-size: clamp(3rem, 9.5vw, 11rem);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.cs-heading-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255,255,255,0.25);
+}
+
+/* ── Divider ── */
+.cs-divider {
+  width: 72px;
+  height: 1px;
+  background: rgba(255,255,255,0.12);
+  margin: 40px 0 36px;
+  transform-origin: center;
+}
+
+/* ── Tagline ── */
+.cs-tagline {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  line-height: 2;
+  max-width: 480px;
+  margin: 0 0 44px;
+}
+
+/* ── Email capture ── */
+.cs-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 56px;
+}
+
+.cs-input-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: rgba(15,15,15,0.65);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 5px 5px 5px 20px;
+  transition: border-color 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.cs-input-row:focus-within {
+  border-color: rgba(255,255,255,0.22);
+}
+
+.cs-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  padding: 12px 0;
+  min-width: 0;
+}
+
+.cs-input::placeholder {
+  color: rgba(255,255,255,0.18);
+}
+
+.cs-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #fff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.cs-submit:hover {
+  background: rgba(255,255,255,0.88);
+  transform: scale(1.05);
+}
+
+.cs-submit:active {
+  transform: scale(0.97);
+}
+
+.cs-success {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.12em;
+  animation: cs-slide-up 0.4s ease-out;
+}
+
+@keyframes cs-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Status grid ── */
+.cs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 640px;
+}
+
+.cs-card {
+  background: rgba(15,15,15,0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 22px 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.cs-card-id {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: rgba(255,255,255,0.18);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* Card type: progress */
+.cs-progress-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cs-progress-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.cs-progress-bar {
+  height: 2px;
+  width: 52px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.cs-progress-fill {
+  height: 100%;
+  width: 85%;
+  background: #fff;
+  animation: cs-loading 2s ease-in-out infinite;
+}
+
+@keyframes cs-loading {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Card type: data rows */
+.cs-data {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.cs-data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+}
+
+.cs-data-val {
+  color: rgba(255,255,255,0.65);
+  font-weight: 600;
+}
+
+.cs-data-line {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+}
+
+/* Card type: text */
+.cs-card-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.55;
+  margin-top: 6px;
+}
+
+/* ── Bottom bar ── */
+.cs-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: linear-gradient(to top, rgba(2,2,2,0.92) 0%, rgba(2,2,2,0.4) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.cs-footer > * {
+  pointer-events: auto;
+}
+
+.cs-copy {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cs-links {
+  display: flex;
+  gap: 6px;
+}
+
+.cs-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.28);
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.cs-link:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .cs-main {
+    padding: 72px 20px 110px;
+  }
+
+  .cs-brand {
+    margin-bottom: 40px;
+  }
+
+  .cs-heading {
+    font-size: clamp(2.6rem, 13vw, 5.5rem);
+  }
+
+  .cs-divider {
+    margin: 32px 0 28px;
+  }
+
+  .cs-tagline {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    max-width: 320px;
+    margin-bottom: 36px;
+  }
+
+  .cs-form {
+    max-width: 340px;
+    margin-bottom: 40px;
+  }
+
+  .cs-grid {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+  }
+
+  .cs-footer {
+    padding: 14px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cs-heading {
+    font-size: clamp(2.2rem, 12vw, 3.8rem);
+  }
+
+  .cs-card {
+    padding: 18px 16px;
+  }
+
+  .cs-progress-value {
+    font-size: 20px;
+  }
+}
