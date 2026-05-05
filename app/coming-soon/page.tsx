@@ -11,7 +11,8 @@ import "./coming-soon.css";
 /* ─── Local translations (so we never touch i18n.tsx) ─────────── */
 
 const cs = {
-  heading:     { sl: "PRIPRAVLJAMO NEKAJ NOVEGA", en: "WE'RE BUILDING SOMETHING NEW" },
+  heading1:    { sl: "PRIPRAVLJAMO",  en: "WE'RE BUILDING" },
+  heading2:    { sl: "NEKAJ NOVEGA",  en: "SOMETHING NEW" },
   tagline: {
     sl: "Nastaja nova izkušnja. Vpišite svoj e-naslov in obvestili vas bomo, ko bo pripravljena.",
     en: "A new experience is taking shape. Leave your email and we'll let you know when it's ready.",
@@ -210,7 +211,9 @@ export default function ComingSoonPage() {
 
         {/* Heading */}
         <h1 className="cs-heading">
-          {t("heading")}
+          {t("heading1")}
+          <br />
+          <span className="cs-heading-outline">{t("heading2")}</span>
         </h1>
 
         {/* Divider */}
