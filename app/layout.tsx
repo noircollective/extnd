@@ -18,7 +18,7 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Noir Labs | Kreativna agencija',
+  title: 'extnd',
   description: 'Specializirani smo za ustvarjanje poglobljenih, visoko interaktivnih spletnih izkušenj, ki združujejo robustno inženirstvo z vrhunsko estetiko.',
 };
 
